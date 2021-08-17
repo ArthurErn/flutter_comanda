@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/core/theme/app_colors.dart';
+import 'package:lotuserp_comanda/core/theme/app_colors.dart';
 
 class BannersComponent extends StatefulWidget {
   final List<BannerItemComponent> list;

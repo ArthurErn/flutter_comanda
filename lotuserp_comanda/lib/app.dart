@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/main.dart';
+import 'package:lotuserp_comanda/main.dart';
 import 'core/theme/app_theme.dart';
 
 class App extends StatelessWidget {

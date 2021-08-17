@@ -1,5 +1,5 @@
-import 'package:ifood_flutter_clone/controllers/mesas/list.cards.dart';
-import 'package:ifood_flutter_clone/models/mesas/cards.model.dart';
+import 'package:lotuserp_comanda/controllers/mesas/list.cards.dart';
+import 'package:lotuserp_comanda/models/mesas/cards.model.dart';
 import 'package:mobx/mobx.dart';
 part 'cards.state.g.dart';
 

@@ -1,8 +1,8 @@
-import 'package:ifood_flutter_clone/controllers/mesas/list.extrato.dart';
-import 'package:ifood_flutter_clone/models/mesas/cards.state.dart';
-import 'package:ifood_flutter_clone/models/mesas/extrato.model.dart';
-import 'package:ifood_flutter_clone/models/produtos/complemento.state.dart';
-import 'package:ifood_flutter_clone/views/mesas/extrato.dart';
+import 'package:lotuserp_comanda/controllers/mesas/list.extrato.dart';
+import 'package:lotuserp_comanda/models/mesas/cards.state.dart';
+import 'package:lotuserp_comanda/models/mesas/extrato.model.dart';
+import 'package:lotuserp_comanda/models/produtos/complemento.state.dart';
+import 'package:lotuserp_comanda/views/mesas/extrato.dart';
 import 'package:mobx/mobx.dart';
 part 'extrato.state.g.dart';
 
@@ -45,8 +45,8 @@ abstract class _ExtratoStateBase with Store {
   postarExtrato() async {
     complementos.calcularComplemento();
     await ListExtrato().postarExtrato().then((value) async {
-      await cards.listarCards(9).then((value) {
-        listarExtrato();
+      await cards.listarCards(9).then((value) async {
+        await listarExtrato();
       });
     });
   }

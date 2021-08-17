@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ifood_flutter_clone/views/login/functions/index_api.dart';
-import 'package:ifood_flutter_clone/views/login/login_page.dart';
+import 'package:lotuserp_comanda/views/login/functions/index_api.dart';
+import 'package:lotuserp_comanda/views/login/login_page.dart';
 
 var empresaId = getIndexEmpresa(val);
 var ip = ipController.text;

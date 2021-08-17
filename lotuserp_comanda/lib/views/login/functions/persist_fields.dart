@@ -1,4 +1,4 @@
-import 'package:ifood_flutter_clone/views/login/layout/login_field.dart';
+import 'package:lotuserp_comanda/views/login/layout/login_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../login_page.dart';
 
@@ -27,17 +27,13 @@ Future buscaHost() async {
 
 Future salvarLogin() async {
   String usuarioLogin = loginController.text;
-  String senhaLogin = passLogController.text;
   final pref = await SharedPreferences.getInstance();
   pref.setString('usuario', usuarioLogin);
-  pref.setString('senha', senhaLogin);
 }
 
 Future loadLogin() async {
   final pref = await SharedPreferences.getInstance();
   String usuarioLogin = pref.getString("usuario");
-  String senhaLogin = pref.getString("senha");
-  passLogController.text = senhaLogin;
   loginController.text = usuarioLogin;
 }
 

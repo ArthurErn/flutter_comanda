@@ -7,6 +7,8 @@ class PizzaModel {
   dynamic valorTamMedio;
   dynamic valorTamGrande;
   dynamic valorTamFamilia;
+  // ignore: non_constant_identifier_names
+  int qtde_inicial;
 
   PizzaModel(
       {this.idEmpresa,
@@ -16,7 +18,10 @@ class PizzaModel {
       this.valorTamPequeno,
       this.valorTamMedio,
       this.valorTamGrande,
-      this.valorTamFamilia});
+      this.valorTamFamilia,
+      // ignore: non_constant_identifier_names
+      this.qtde_inicial
+      });
 
   PizzaModel.fromJson(Map<String, dynamic> json) {
     idEmpresa = json['idEmpresa'];
@@ -27,6 +32,7 @@ class PizzaModel {
     valorTamMedio = json['valorTamMedio'];
     valorTamGrande = json['valorTamGrande'];
     valorTamFamilia = json['valorTamFamilia'];
+    qtde_inicial = json['quantidade_inicial'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +45,7 @@ class PizzaModel {
     data['valorTamMedio'] = this.valorTamMedio;
     data['valorTamGrande'] = this.valorTamGrande;
     data['valorTamFamilia'] = this.valorTamFamilia;
+    data['quantidade_inicial'] = this.qtde_inicial;
     return data;
   }
 }

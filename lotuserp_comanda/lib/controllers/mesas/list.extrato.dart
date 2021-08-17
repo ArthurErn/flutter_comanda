@@ -1,42 +1,42 @@
 import 'dart:convert';
-import 'package:ifood_flutter_clone/controllers/connect.api.dart';
-import 'package:ifood_flutter_clone/controllers/login/login_auth.dart';
-import 'package:ifood_flutter_clone/models/mesas/cards.state.dart';
-import 'package:ifood_flutter_clone/models/mesas/extrato.model.dart';
-import 'package:ifood_flutter_clone/models/mesas/extrato.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/complemento.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/pizza.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/product.state.dart';
-import 'package:ifood_flutter_clone/views/content/content_page.dart';
-import 'package:ifood_flutter_clone/views/mesas/complemento.dart';
-import 'package:ifood_flutter_clone/views/mesas/mesas.dart';
-import 'package:ifood_flutter_clone/views/mesas/quantidade.dart';
+import 'package:lotuserp_comanda/controllers/connect.api.dart';
+import 'package:lotuserp_comanda/controllers/login/login_auth.dart';
+import 'package:lotuserp_comanda/models/mesas/cards.state.dart';
+import 'package:lotuserp_comanda/models/mesas/extrato.model.dart';
+import 'package:lotuserp_comanda/models/mesas/extrato.state.dart';
+import 'package:lotuserp_comanda/models/produtos/complemento.state.dart';
+import 'package:lotuserp_comanda/models/produtos/pizza.state.dart';
+import 'package:lotuserp_comanda/models/produtos/product.state.dart';
+import 'package:lotuserp_comanda/views/content/content_page.dart';
+import 'package:lotuserp_comanda/views/mesas/complemento.dart';
+import 'package:lotuserp_comanda/views/mesas/mesas.dart';
+import 'package:lotuserp_comanda/views/mesas/quantidade.dart';
 import 'package:mobx/mobx.dart';
 
 class ListExtrato extends ConnectApi {
   Future listar() async {
     ObservableList<ExtratoMesaModel> extratos = ObservableList();
     await inicializar(
-            'http://$ip/comMesasExtrato?pidvenda=${cards.cards[indice].idVenda}')
+            'http://$ip/mobile/comMesasExtrato?pidvenda=${cards.cards[indice].idVenda}')
         .then((response) {
       String json = response.body;
       var tagsJson = jsonDecode(json);
 
       for (var item in tagsJson) {
         ExtratoMesaModel extrato = new ExtratoMesaModel(
-            idVenda: item['idVenda'],
+            idVenda: item['id_venda'],
             item: item['item'],
-            idProduto: item['idProduto'],
-            produtoNome: item['produtoNome'],
+            idProduto: item['id_produto'],
+            produtoNome: item['produto_nome'],
             qtde: item['qtde'],
-            vlrLiquido: item['vlrLiquido'],
-            vlrVendido: item['vlrVendido'],
-            idVendedor: item['idVendedor'],
-            atendenteNome: item['atendenteNome'],
-            userNome: item['userNome'],
-            userDataHora: item['userDataHora'],
-            userHost: item['userHost'],
-            produtoComplemento: item['produtoComplemento']);
+            vlrLiquido: item['vlr_liquido'],
+            vlrVendido: item['vlr_vendido'],
+            idVendedor: item['id_vendedor'],
+            atendenteNome: item['atendente_nome'],
+            userNome: item['user_nome'],
+            userDataHora: item['user_data_hora'],
+            userHost: item['user_host'],
+            produtoComplemento: item['produto_complemento']);
         extratos.add(extrato);
       }
     });
@@ -54,24 +54,25 @@ class ListExtrato extends ConnectApi {
     var sabor1 = pizza.pizzaSelecionada.length >= 1
         ? pizza.pizzaSelecionada[0].produtoDescricao == null
             ? ""
-            : pizza.pizzaSelecionada[0].produtoDescricao
+            : pizza.pizzaSelecionada[0].produtoDescricao + "\n"
         : '';
     var sabor2 = pizza.pizzaSelecionada.length >= 2
         ? pizza.pizzaSelecionada[1].produtoDescricao == null
             ? ""
-            : pizza.pizzaSelecionada[1].produtoDescricao
+            : pizza.pizzaSelecionada[1].produtoDescricao + "\n"
         : '';
     var sabor3 = pizza.pizzaSelecionada.length >= 3
         ? pizza.pizzaSelecionada[2].produtoDescricao == null
             ? ""
-            : pizza.pizzaSelecionada[2].produtoDescricao
+            : pizza.pizzaSelecionada[2].produtoDescricao + "\n"
         : '';
     var complemento = product.product[indiceProduto].produtoPizza == 1
-        ? '\n' + sabor1 + "\n" + sabor2 + "\n" + sabor3 + "\n\n" + tamanhoPizza
+        ? '\n' + sabor1 + sabor2 + sabor3 + "\n" + tamanhoPizza
         : "";
     var aux = 0;
     String complementoProduto;
     List<String> add = [];
+    // ignore: unused_local_variable
     for (var items in complementos.complementosSelecionados) {
       add.add(complementos.complementosSelecionados[aux].nomeComplemento);
       aux++;
@@ -100,7 +101,7 @@ class ListExtrato extends ConnectApi {
         "data_caixa": caixaData
       }
     ]);
-    await postar('http://$ip/comMesasInserirItem', jsonData).then((response) {
+    await postar('http://$ip/mobile/comMesasInserirItem', jsonData).then((response) {
       extrato.listarExtrato();
     });
   }

@@ -1,9 +1,9 @@
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ifood_flutter_clone/models/login/construtor_empresa.dart';
-import 'package:ifood_flutter_clone/views/login/functions/index_api.dart';
-import 'package:ifood_flutter_clone/views/mesas/mesas.dart';
+import 'package:lotuserp_comanda/models/login/construtor_empresa.dart';
+import 'package:lotuserp_comanda/views/login/functions/index_api.dart';
+import 'package:lotuserp_comanda/views/mesas/mesas.dart';
 import 'dart:convert';
 import '../../views/login/login_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -11,7 +11,7 @@ import 'package:cherry_toast/cherry_toast.dart';
 
 var grade;
 var empresa = 0;
-var idColaborador;
+dynamic idColaborador;
 var idUsuario;
 var caixaId;
 var caixaData;
@@ -19,8 +19,6 @@ List<LoginEmpresa> empresas = [];
 
 //LISTA DE EMPRESAS QUE APARECEM NO DROPDOWN
 class AuthenticationEmpresas {
-  //LISTA DE EMPRESAS QUE APARECEM NO List<BuilderApi> resposta = <BuilderApi>[];
-
   //FAZ A CONEXÃO
   Future inicializar() async {
     final _usuario = configLoginController.text;
@@ -53,7 +51,7 @@ class AuthenticationEmpresas {
     var _ip = ipController.text;
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
 
-    var url = Uri.parse('http://$_ip/mobEmpresasListar');
+    var url = Uri.parse('http://$_ip/mobile/empresasListar');
     var response = await http
         .get(url, headers: <String, String>{'authorization': basicAuth});
     var body = response.body;
@@ -66,10 +64,10 @@ class AuthenticationEmpresas {
         u['razao'],
         u['fantasia'],
         u['cnpj'],
-        u['versaoLiberacao'],
-        u['tipoOs'],
-        u['descontoIndividual'],
-        u['codigoDescricao'],
+        u['versao_liberacao'],
+        u['tipo_os'],
+        u['desconto_individual'],
+        u['codigo_descricao'],
       );
       empresas.add(empresa);
     }
@@ -90,7 +88,7 @@ class AuthenticationLogin {
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
     var url = Uri.parse(
-        'http://$_ip/comUsuarioLogar?pUsuario=$_user&pSenha=$_pass&pidempresa=$_empresa');
+        'http://$_ip/mobile/comUsuarioLogar?pUsuario=$_user&pSenha=$_pass&pidempresa=$_empresa');
     var response = await http
         .get(url, headers: <String, String>{'authorization': basicAuth});
     return response;
@@ -118,6 +116,8 @@ class AuthenticationLogin {
             );
           });
         }
+      } else {
+        print("Status Code != 200");
       }
     });
   }

@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/controllers/connect.api.dart';
-import 'package:ifood_flutter_clone/models/produtos/product.state.dart';
-import 'package:ifood_flutter_clone/views/content/content_page.dart';
-import 'package:ifood_flutter_clone/views/login/login_page.dart';
-import 'package:ifood_flutter_clone/views/mesas/complemento.dart';
+import 'package:flutter/services.dart';
+import 'package:lotuserp_comanda/controllers/connect.api.dart';
+import 'package:lotuserp_comanda/models/produtos/product.state.dart';
+import 'package:lotuserp_comanda/views/content/content_page.dart';
+import 'package:lotuserp_comanda/views/login/login_page.dart';
+import 'package:lotuserp_comanda/views/mesas/complemento.dart';
 
 var quantityController = TextEditingController();
 
@@ -32,6 +33,10 @@ class _QuantidadeProdutoPageState extends State<QuantidadeProdutoPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -62,7 +67,7 @@ class _QuantidadeProdutoPageState extends State<QuantidadeProdutoPage> {
           CircleAvatar(
             backgroundColor: Colors.transparent,
             backgroundImage: NetworkImage(
-              'http://$ip/find-image?pTipo=1&pId=2&pEscala=500&pFileName=PRO_${formatter.format(product.product[indiceProduto].idProduto)}_001.PNG',
+              'http://$ip/contextmobile/findimagem?tipo=1&escala=300&img=PRO_${formatter.format(product.product[indiceProduto].idProduto)}_001.PNG',
               headers: <String, String>{'authorization': basicAuth},
             ),
             radius: 95,

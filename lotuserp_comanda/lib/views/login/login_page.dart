@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ifood_flutter_clone/controllers/login/login_auth.dart';
-import 'package:ifood_flutter_clone/models/login/construtor_empresa.dart';
-import 'package:ifood_flutter_clone/views/login/functions/persist_fields.dart';
-import 'package:ifood_flutter_clone/views/login/layout/api_field.dart';
-import 'package:ifood_flutter_clone/views/login/layout/login_field.dart';
+import 'package:lotuserp_comanda/controllers/login/login_auth.dart';
+import 'package:lotuserp_comanda/models/login/construtor_empresa.dart';
+import 'package:lotuserp_comanda/views/login/functions/persist_fields.dart';
+import 'package:lotuserp_comanda/views/login/layout/api_field.dart';
+import 'package:lotuserp_comanda/views/login/layout/login_field.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 //LOGIN

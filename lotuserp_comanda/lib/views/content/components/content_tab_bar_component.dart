@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/core/theme/app_colors.dart';
-import 'package:ifood_flutter_clone/core/theme/app_typography.dart';
+import 'package:lotuserp_comanda/core/theme/app_colors.dart';
+import 'package:lotuserp_comanda/core/theme/app_typography.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class ContentTabBarComponent extends StatelessWidget {

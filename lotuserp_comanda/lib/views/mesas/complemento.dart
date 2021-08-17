@@ -1,22 +1,23 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:ifood_flutter_clone/models/mesas/extrato.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/complemento.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/pizza.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/product.state.dart';
-import 'package:ifood_flutter_clone/views/content/content_page.dart';
-import 'package:ifood_flutter_clone/views/mesas/extrato.dart';
+import 'package:lotuserp_comanda/models/mesas/extrato.state.dart';
+import 'package:lotuserp_comanda/models/produtos/complemento.state.dart';
+import 'package:lotuserp_comanda/models/produtos/pizza.state.dart';
+import 'package:lotuserp_comanda/models/produtos/product.state.dart';
+import 'package:lotuserp_comanda/views/content/content_page.dart';
+import 'package:lotuserp_comanda/views/mesas/extrato.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/core/theme/app_colors.dart';
-import 'package:ifood_flutter_clone/core/theme/app_typography.dart';
-import 'package:ifood_flutter_clone/models/produtos/category.state.dart';
+import 'package:lotuserp_comanda/core/theme/app_colors.dart';
+import 'package:lotuserp_comanda/core/theme/app_typography.dart';
+import 'package:lotuserp_comanda/models/produtos/category.state.dart';
 import 'package:mobx/mobx.dart';
 
 int indiceComplemento;
 int indicePizza;
 var removePizza;
 
-bool pequena = false;
+bool pequena = true;
 bool media = false;
 bool grande = false;
 bool familia = false;
@@ -50,10 +51,15 @@ class _ComplementoPageState extends State<ComplementoPage>
   var complementoController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             extrato.postarExtrato().then((value) {
+              extrato.listarExtrato();
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.pop(context);
@@ -114,19 +120,39 @@ class _ComplementoPageState extends State<ComplementoPage>
                                     controller: complementoController,
                                     onChanged: (text) {
                                       text = text.toLowerCase();
-                                      setState(() {
-                                        complementos.complementos =
-                                            ObservableList.of(complementos
-                                                .complementosDisplay
-                                                .where((complement) {
-                                          var complementoNome =
-                                              complement.nomeComplemento != null
-                                                  ? complement.nomeComplemento
-                                                      .toLowerCase()
-                                                  : "";
-                                          return complementoNome.contains(text);
-                                        }));
-                                      });
+                                      product.product[indiceProduto]
+                                                  .produtoPizza !=
+                                              1
+                                          ? setState(() {
+                                              complementos.complementos =
+                                                  ObservableList.of(complementos
+                                                      .complementosDisplay
+                                                      .where((complement) {
+                                                var complementoNome = complement
+                                                            .nomeComplemento !=
+                                                        null
+                                                    ? complement.nomeComplemento
+                                                        .toLowerCase()
+                                                    : "";
+                                                return complementoNome
+                                                    .contains(text);
+                                              }));
+                                            })
+                                          : setState(() {
+                                              pizza.pizzas = ObservableList.of(
+                                                  pizza.pizzaDisplay
+                                                      .where((complement) {
+                                                var complementoNome = complement
+                                                            .produtoDescricao !=
+                                                        null
+                                                    ? complement
+                                                        .produtoDescricao
+                                                        .toLowerCase()
+                                                    : "";
+                                                return complementoNome
+                                                    .contains(text);
+                                              }));
+                                            });
                                     },
                                     decoration: InputDecoration(
                                         hintText: "Pesquisar complemento",
@@ -169,7 +195,7 @@ class _ComplementoPageState extends State<ComplementoPage>
                           return Container(
                             height:
                                 product.product[indiceProduto].produtoPizza == 1
-                                    ? 460
+                                    ? 350
                                     : MediaQuery.of(context).size.height / 3 -
                                         75,
                             child:
@@ -229,23 +255,19 @@ class _ComplementoPageState extends State<ComplementoPage>
                                   1
                               ? Container(
                                   height: MediaQuery.of(context).size.height /
-                                          2 -
-                                      55,
-                                  child:
-                                      product.product[indiceProduto]
-                                                  .produtoPizza !=
-                                              1
-                                          ? ListView.builder(
-                                              physics: BouncingScrollPhysics(),
-                                              itemCount: complementos
-                                                  .complementosSelecionados
-                                                  .length,
-                                              scrollDirection: Axis.vertical,
-                                              itemBuilder: (context,
-                                                      index) =>
-                                                  listComplementosSelecionados(
-                                                      index, context))
-                                          : Center())
+                                      2,
+                                  child: product.product[indiceProduto]
+                                              .produtoPizza !=
+                                          1
+                                      ? ListView.builder(
+                                          physics: BouncingScrollPhysics(),
+                                          itemCount: complementos
+                                              .complementosSelecionados.length,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (context, index) =>
+                                              listComplementosSelecionados(
+                                                  index, context))
+                                      : Center())
                               : Center();
                         }),
                       ),
@@ -288,14 +310,22 @@ class _ComplementoPageState extends State<ComplementoPage>
                                         },
                                         child: Container(
                                           height: 40,
-                                          width: 100,
+                                          width: 92,
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.grey)),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            // border: Border.all(
+                                            //     //width: 1,
+                                            //     color: Colors.grey)
+                                          ),
                                           child: Row(
                                             children: [
-                                              Center(child: Text("Pequena")),
+                                              Center(
+                                                  child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text("Pequena"),
+                                              )),
                                               pequena == true
                                                   ? Icon(Icons.check)
                                                   : Center(),
@@ -313,14 +343,22 @@ class _ComplementoPageState extends State<ComplementoPage>
                                         },
                                         child: Container(
                                           height: 40,
-                                          width: 100,
+                                          width: 82,
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.grey)),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            // border: Border.all(
+                                            //     //width: 1,
+                                            //     color: Colors.grey)
+                                          ),
                                           child: Row(
                                             children: [
-                                              Center(child: Text("Média")),
+                                              Center(
+                                                  child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text("Média"),
+                                              )),
                                               media == true
                                                   ? Icon(Icons.check)
                                                   : Center(),
@@ -338,14 +376,22 @@ class _ComplementoPageState extends State<ComplementoPage>
                                         },
                                         child: Container(
                                           height: 40,
-                                          width: 100,
+                                          width: 82,
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.grey)),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            // border: Border.all(
+                                            //     //width: 1,
+                                            //     color: Colors.grey)
+                                          ),
                                           child: Row(
                                             children: [
-                                              Center(child: Text("Grande")),
+                                              Center(
+                                                  child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text("Grande"),
+                                              )),
                                               grande == true
                                                   ? Icon(Icons.check)
                                                   : Center(),
@@ -363,13 +409,22 @@ class _ComplementoPageState extends State<ComplementoPage>
                                       },
                                       child: Container(
                                         height: 40,
-                                        width: 100,
+                                        width: 87,
                                         decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 1, color: Colors.grey)),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          // border: Border.all(
+                                          //width: 1,
+                                          // color: Colors.grey)
+                                        ),
                                         child: Row(
                                           children: [
-                                            Center(child: Text("Família")),
+                                            Center(
+                                                child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Text("Família"),
+                                            )),
                                             familia == true
                                                 ? Icon(Icons.check)
                                                 : Center(),
@@ -440,44 +495,53 @@ class _ComplementoPageState extends State<ComplementoPage>
                 ),
               ],
             ),
-            IconButton(
-              icon: Icon(
-                Icons.remove,
-                color: Colors.blue[900],
-              ),
-              onPressed: () {
-                setState(() {
-                  var nome = pizza.pizzas[index].produtoDescricao;
-                  pizza.pizzaSelecionada
-                      .removeWhere((item) => item.produtoDescricao == nome);
-                  pizza.pizzas[index].valorTamFamilia = 0;
-                });
-              },
-            ),
             Container(
-                height: 30,
-                width: 60,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Center(
-                    child:
-                        Text(pizza.pizzas[index].valorTamFamilia.toString()))),
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.blue[900],
+              decoration: BoxDecoration(
+                  border: pizza.pizzaSelecionada.length > 0
+                      ? Border.all(width: .8, color: Colors.grey[300])
+                      : Border.all(width: 0, color: Colors.transparent)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  pizza.pizzaSelecionada.length > 0
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.remove,
+                            color: Colors.blue[900],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              var nome = pizza.pizzas[index].produtoDescricao;
+                              pizza.pizzaSelecionada.removeWhere(
+                                  (item) => item.produtoDescricao == nome);
+                              pizza.pizzas[index].qtde_inicial = 0;
+                            });
+                          },
+                        )
+                      : Center(),
+                  pizza.pizzaSelecionada.length > 0
+                      ? Center(
+                          child:
+                              Text(pizza.pizzas[index].qtde_inicial.toString()))
+                      : Center(),
+                  IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.blue[900],
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (pizza.pizzaSelecionada.length < 3) {
+                          indicePizza = index;
+                          pizza.adicionarPizza();
+                          pizza.pizzas[index].qtde_inicial++;
+                        }
+                      });
+                    },
+                  )
+                ],
               ),
-              onPressed: () {
-                setState(() {
-                  if (pizza.pizzaSelecionada.length < 3) {
-                    indicePizza = index;
-                    pizza.adicionarPizza();
-                    pizza.pizzas[index].valorTamFamilia++;
-                  }
-                });
-              },
-            )
+            ),
           ],
         ),
       ),

@@ -1,4 +1,4 @@
-import 'package:ifood_flutter_clone/controllers/produtos/list.product.dart';
+import 'package:lotuserp_comanda/controllers/produtos/list.product.dart';
 import 'package:mobx/mobx.dart';
 part 'product.state.g.dart';
 

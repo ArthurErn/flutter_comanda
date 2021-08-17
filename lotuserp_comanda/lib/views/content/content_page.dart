@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:ifood_flutter_clone/controllers/connect.api.dart';
-import 'package:ifood_flutter_clone/models/produtos/product.state.dart';
-import 'package:ifood_flutter_clone/views/mesas/extrato.dart';
-import 'package:ifood_flutter_clone/views/mesas/quantidade.dart';
+import 'package:lotuserp_comanda/controllers/connect.api.dart';
+import 'package:lotuserp_comanda/models/produtos/product.state.dart';
+import 'package:lotuserp_comanda/views/mesas/extrato.dart';
+import 'package:lotuserp_comanda/views/mesas/quantidade.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:ifood_flutter_clone/core/theme/app_colors.dart';
-import 'package:ifood_flutter_clone/core/theme/app_typography.dart';
-import 'package:ifood_flutter_clone/models/produtos/category.state.dart';
-import 'package:ifood_flutter_clone/views/login/login_page.dart';
+import 'package:lotuserp_comanda/core/theme/app_colors.dart';
+import 'package:lotuserp_comanda/core/theme/app_typography.dart';
+import 'package:lotuserp_comanda/models/produtos/category.state.dart';
+import 'package:lotuserp_comanda/views/login/login_page.dart';
 import 'package:mobx/mobx.dart';
 
 int indiceProduto;
@@ -41,6 +41,26 @@ class _ContentPageState extends State<ContentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Stack(children: [
+          Positioned(
+            bottom: 1,
+            right: 1,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.shopping_cart),
+              backgroundColor: Colors.blue[900],
+            ),
+          ),
+          Positioned(
+            bottom: 80,
+            right: 1,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.check),
+              backgroundColor: Colors.blue[900],
+            ),
+          ),
+        ]),
         appBar: AppBar(
           actions: [
             IconButton(
@@ -178,9 +198,9 @@ listProdutos(index, context) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: Colors.grey[300],
+                backgroundColor: Colors.grey[200],
                 backgroundImage: NetworkImage(
-                    'http://$ip/find-image?pTipo=1&pId=2&pEscala=500&pFileName=PRO_${formatter.format(product.product[index].idProduto)}_001.PNG',
+                    'http://$ip/contextmobile/findimagem?tipo=1&escala=300&img=PRO_${formatter.format(product.product[index].idProduto)}_001.PNG',
                     headers: <String, String>{'authorization': basicAuth}),
                 radius: 30,
               ),
@@ -295,7 +315,7 @@ class _CategorySession extends StatelessWidget {
             Image(
               height: 60,
               image: NetworkImage(
-                  'http://$ip/find-image?pTipo=4&pId=$empresaId&pEscala=500&pFileName=GRU_${formatter.format(categories.category[index].idGrupo)}.PNG',
+                  'http://$ip/contextmobile/findimagem?tipo=4&escala=300&img=GRU_${formatter.format(categories.category[index].idGrupo)}.PNG',
                   headers: <String, String>{'authorization': basicAuth}),
             ),
             Padding(

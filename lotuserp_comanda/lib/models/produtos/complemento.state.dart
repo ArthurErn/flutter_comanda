@@ -1,10 +1,10 @@
-import 'package:ifood_flutter_clone/controllers/produtos/list.complemento.dart';
-import 'package:ifood_flutter_clone/models/produtos/complemento.model.dart';
-import 'package:ifood_flutter_clone/models/produtos/pizza.state.dart';
-import 'package:ifood_flutter_clone/models/produtos/product.state.dart';
-import 'package:ifood_flutter_clone/views/content/content_page.dart';
-import 'package:ifood_flutter_clone/views/mesas/complemento.dart';
-import 'package:ifood_flutter_clone/views/mesas/quantidade.dart';
+import 'package:lotuserp_comanda/controllers/produtos/list.complemento.dart';
+import 'package:lotuserp_comanda/models/produtos/complemento.model.dart';
+import 'package:lotuserp_comanda/models/produtos/pizza.state.dart';
+import 'package:lotuserp_comanda/models/produtos/product.state.dart';
+import 'package:lotuserp_comanda/views/content/content_page.dart';
+import 'package:lotuserp_comanda/views/mesas/complemento.dart';
+import 'package:lotuserp_comanda/views/mesas/quantidade.dart';
 import 'package:mobx/mobx.dart';
 part 'complemento.state.g.dart';
 
@@ -70,6 +70,7 @@ abstract class _ComplementoStateBase with Store {
                   ? product.product[indiceProduto].valorTamGrande
                   : 
                       product.product[indiceProduto].valorTamFamilia;
+      // ignore: unused_local_variable
       for (var item in pizza.pizzaSelecionada) {
         var pvenda = pequena == true
             ? pizza.pizzaSelecionada[aux].valorTamPequeno

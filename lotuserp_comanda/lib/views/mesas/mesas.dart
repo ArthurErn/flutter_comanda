@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:ifood_flutter_clone/controllers/connect.api.dart';
-import 'package:ifood_flutter_clone/models/mesas/cards.state.dart';
-import 'package:ifood_flutter_clone/views/login/login_page.dart';
-import 'package:ifood_flutter_clone/views/mesas/extrato.dart';
+import 'package:lotuserp_comanda/controllers/connect.api.dart';
+import 'package:lotuserp_comanda/models/mesas/cards.state.dart';
+import 'package:lotuserp_comanda/views/login/login_page.dart';
+import 'package:lotuserp_comanda/views/mesas/extrato.dart';
 
 var indice;
 
@@ -29,6 +30,10 @@ class _MesasPageState extends State<MesasPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     var widthSize = MediaQuery.of(context).size.width;
     var heightSize = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -41,170 +46,186 @@ class _MesasPageState extends State<MesasPage> {
         backgroundColor: Colors.blue[900],
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Stack(children: [
           Container(
-            height: heightSize - 163,
-            child: Observer(builder: (_) {
-              return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.7,
-                  ),
-                  physics: BouncingScrollPhysics(),
-                  itemCount: cards.cards.length,
-                  itemBuilder: (BuildContext context, int index) =>
-                      listaMesas(index));
-            }),
+            child: CustomPaint(
+              painter: ShapesPainter(),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 1.6,
+              ),
+            ),
           ),
-          Container(
-            height: 60,
-            width: widthSize,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(top: BorderSide(width: 1, color: Colors.black))),
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          statusMesa = 9;
-                          cards.listarCards(statusMesa);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                                  Border.all(width: 1, color: Colors.black)),
-                          child: Center(
-                              child: Text(
-                            "TODOS",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                wordSpacing: 1),
-                          )),
+          Column(
+            children: [
+              Container(
+                height: heightSize - 149,
+                child: Observer(builder: (_) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 11),
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.9,
                         ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          statusMesa = 0;
-                          cards.listarCards(statusMesa);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Colors.green[600],
-                              border:
-                                  Border.all(width: 1, color: Colors.black)),
-                          child: Center(
-                              child: Text(
-                            "LIVRE",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                wordSpacing: 1),
-                          )),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          statusMesa = 1;
-                          cards.listarCards(statusMesa);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Colors.red[700],
-                              border:
-                                  Border.all(width: 1, color: Colors.black)),
-                          child: Center(
-                              child: Text(
-                            "OCUPADAS",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                wordSpacing: 1),
-                          )),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          statusMesa = 2;
-                          cards.listarCards(statusMesa);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              border:
-                                  Border.all(width: 1, color: Colors.black)),
-                          child: Center(
-                              child: Text(
-                            "CONTA",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                wordSpacing: 1),
-                          )),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          statusMesa = 4;
-                          cards.listarCards(statusMesa);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Colors.teal[400],
-                              border:
-                                  Border.all(width: 1, color: Colors.black)),
-                          child: Center(
-                              child: Text(
-                            "RESERVADAS",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                wordSpacing: 1),
-                          )),
-                        ),
-                      ),
-                    ],
+                        physics: BouncingScrollPhysics(),
+                        itemCount: cards.cards.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            listaMesas(index)),
                   );
                 }),
+              ),
+              Container(
+                height: 60,
+                width: widthSize,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border:
+                        Border(top: BorderSide(width: 1, color: Colors.black))),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              statusMesa = 9;
+                              cards.listarCards(statusMesa);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1, color: Colors.black)),
+                              child: Center(
+                                  child: Text(
+                                "TODOS",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    wordSpacing: 1),
+                              )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              statusMesa = 0;
+                              cards.listarCards(statusMesa);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                  color: Colors.green[600],
+                                  border: Border.all(
+                                      width: 1, color: Colors.black)),
+                              child: Center(
+                                  child: Text(
+                                "LIVRE",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    wordSpacing: 1),
+                              )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              statusMesa = 1;
+                              cards.listarCards(statusMesa);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                  color: Colors.red[700],
+                                  border: Border.all(
+                                      width: 1, color: Colors.black)),
+                              child: Center(
+                                  child: Text(
+                                "OCUPADAS",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    wordSpacing: 1),
+                              )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              statusMesa = 2;
+                              cards.listarCards(statusMesa);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  border: Border.all(
+                                      width: 1, color: Colors.black)),
+                              child: Center(
+                                  child: Text(
+                                "CONTA",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    wordSpacing: 1),
+                              )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              statusMesa = 4;
+                              cards.listarCards(statusMesa);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                  color: Colors.teal[400],
+                                  border: Border.all(
+                                      width: 1, color: Colors.black)),
+                              child: Center(
+                                  child: Text(
+                                "RESERVADAS",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    wordSpacing: 1),
+                              )),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              ),
+            ],
           ),
-        ],
+        ]),
       ),
     );
   }
 
   listaMesas(index) {
     return Padding(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(3),
       child: Center(
         child: GestureDetector(
           onTap: () {
@@ -241,7 +262,7 @@ class _MesasPageState extends State<MesasPage> {
                   ),
                   Container(
                     height: 45,
-                    width: 100,
+                    width: 103,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(width: 1, color: Colors.black)),
@@ -253,12 +274,12 @@ class _MesasPageState extends State<MesasPage> {
                           alignment: Alignment.centerLeft,
                           image: NetworkImage(
                               cards.cards[index].statusNome == "LIVRE"
-                                  ? "http://$ip/find-image?pTipo=0&pId=&pEscala=50&pFileName=Mesa_Livre.PNG"
+                                  ? "http://$ip/contextmobile/findimagem?tipo=0&escala=200&img=Mesa_Livre.PNG"
                                   : cards.cards[index].statusNome == "OCUPADA(O)"
-                                      ? "http://$ip/find-image?pTipo=0&pId=&pEscala=50&pFileName=Mesa_Ocupada.PNG"
+                                      ? "http://$ip/contextmobile/findimagem?tipo=0&escala=200&img=Mesa_Ocupada.PNG"
                                       : cards.cards[index].statusNome == "CONTA"
-                                          ? "http://$ip/find-image?pTipo=0&pId=&pEscala=50&pFileName=Mesa_Conta.PNG"
-                                          : "http://$ip/find-image?pTipo=0&pId=&pEscala=50&pFileName=Mesa_Reservada.PNG",
+                                          ? "http://$ip/contextmobile/findimagem?tipo=0&escala=200&img=Mesa_Conta.PNG"
+                                          : "http://$ip/contextmobile/findimagem?tipo=0&escala=200&img=Mesa_Reservada.PNG",
                               headers: <String, String>{
                                 'authorization': basicAuth
                               }),
@@ -272,12 +293,12 @@ class _MesasPageState extends State<MesasPage> {
                                         .toString()
                                         .substring(0, 10)
                                     : "",
-                                style: TextStyle(fontSize: 10)),
+                                style: TextStyle(fontSize: 9)),
                             Text(
                                 cards.cards[index].reservaHora != null
                                     ? cards.cards[index].reservaHora.toString()
                                     : "",
-                                style: TextStyle(fontSize: 10))
+                                style: TextStyle(fontSize: 9))
                           ],
                         )
                       ],
@@ -288,7 +309,7 @@ class _MesasPageState extends State<MesasPage> {
               Column(
                 children: [
                   Container(
-                    width: 160,
+                    width: 163,
                     height: 30,
                     decoration: BoxDecoration(
                         color: cards.cards[index].statusNome == 'LIVRE'
@@ -317,4 +338,35 @@ class _MesasPageState extends State<MesasPage> {
       ),
     );
   }
+}
+
+class ShapesPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint();
+    // set the paint color to be white
+    paint.color = Colors.transparent;
+    // Create a rectangle with size and width same as the canvas
+    var rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    // draw the rectangle using the paint
+    canvas.drawRect(rect, paint);
+    paint.color = Colors.blue[900].withOpacity(.4);
+    //Color.fromRGBO(194, 235, 46, .8);
+    // create a path
+    var path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, 0);
+    // close the path to form a bounded shape
+    path.close();
+    canvas.drawPath(path, paint);
+    /* // set the color property of the paint
+    paint.color = Colors.deepOrange;
+    // center of the canvas is (x,y) => (width/2, height/2)
+    var center = Offset(size.width / 2, size.height / 2);
+    // draw the circle with center having radius 75.0
+    canvas.drawCircle(center, 75.0, paint);*/
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

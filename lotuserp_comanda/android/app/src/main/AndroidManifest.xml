@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
  
-    package="com.example.ifood_flutter_clone">
+    package="com.example.lotuserp_comanda">
 	<uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="LotusERP Comanda"
